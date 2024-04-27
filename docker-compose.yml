@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+    nginx:
+        image: nginx
+        ports:
+            -   "2000:80"
+        volumes:
+            - ./_docker/nginx/conf.d/:/etc/nginx/conf.d/
+            - ./:/var/www
+        container_name: nginx
+        depends_on:
+            -   app
+    app:
+        build:
+            context: .
+            dockerfile: _docker/app/Dockerfile
+        image: php:8.0-fpm
+        volumes:
+            -   ./:/var/www
+        container_name: app
+
